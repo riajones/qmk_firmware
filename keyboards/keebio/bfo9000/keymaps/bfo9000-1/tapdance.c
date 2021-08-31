@@ -7,7 +7,9 @@
 
 // Tap Dance keycodes
 enum td_keycodes {
-    ESC_LT // Toggle OSX When Held Escape when Pressed
+    ESC_LT, // Toggle OSX -> Double Tap Held || Escape when Pressed
+    CMD_SHIFT, // CMD When Held || Shift = Double Tap Hold
+    TD_DEB, // Debug td, prints out the value of the tapdance state
 };
 
 // Define a type containing as many tapdance states as you need
@@ -15,8 +17,9 @@ typedef enum {
     TD_NONE,
     TD_UNKNOWN,
     TD_SINGLE_TAP,
-    TD_SINGLE_HOLD,
-    TD_DOUBLE_SINGLE_TAP
+    TD_SINGLE_TAP_HOLD,
+    TD_DOUBLE_TAP,
+    TD_DOUBLE_TAP_HOLD
 } td_state_t;
 
 static td_state_t td_state;
@@ -27,11 +30,14 @@ td_state_t cur_dance(qk_tap_dance_state_t *state) {
     if (state->interrupted || !state->pressed) {
       return TD_SINGLE_TAP;
     }
-    return TD_SINGLE_HOLD;
+    return TD_SINGLE_TAP_HOLD;
   }
 
   if (state->count == 2) {
-    return TD_DOUBLE_SINGLE_TAP;
+    if (state->interrupted || !state->pressed) {
+      return TD_DOUBLE_TAP;
+    }
+    return TD_DOUBLE_TAP_HOLD;
   }
   return TD_UNKNOWN; // Any number higher than the maximum state value you return above
 }
@@ -39,39 +45,87 @@ td_state_t cur_dance(qk_tap_dance_state_t *state) {
 void esclt_finished(qk_tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
-    case TD_NONE:
-    case TD_UNKNOWN:
-      break;
     case TD_SINGLE_TAP:
+    case TD_DOUBLE_TAP:
       register_code16(KC_ESC);
       break;
-    case TD_SINGLE_HOLD:
+    case TD_DOUBLE_TAP_HOLD:
       // register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
       layer_invert(OSX);
       break;
-    case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
-      tap_code16(KC_ESC);
-      register_code16(KC_ESC);
+    default:
+      break;
   }
 }
 
 void esclt_reset(qk_tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
-    case TD_NONE:
-    case TD_UNKNOWN:
-      break;
     case TD_SINGLE_TAP:
+    case TD_DOUBLE_TAP:
       unregister_code16(KC_ESC);
+    default:
       break;
-    case TD_SINGLE_HOLD:
-      // unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
-      break;
-    case TD_DOUBLE_SINGLE_TAP:
-      unregister_code16(KC_ESC);
   }
 }
 
+void cmd_shift_finished(qk_tap_dance_state_t *state, void *user_data) {
+  td_state = cur_dance(state);
+  switch (td_state) {
+    case TD_SINGLE_TAP_HOLD:
+      register_mods(MOD_BIT(KC_LGUI));
+      break;
+    case TD_DOUBLE_TAP_HOLD:
+      register_mods(MOD_BIT(KC_LSFT));
+      break;
+    default:
+      break;
+  }
+}
+
+void cmd_shift_reset(qk_tap_dance_state_t *state, void *user_data) {
+  switch (td_state) {
+    case TD_SINGLE_TAP:
+    unregister_mods(MOD_BIT(KC_LGUI));
+    break;
+    case TD_DOUBLE_TAP:
+      unregister_mods(MOD_BIT(KC_LSFT));
+      break;
+    default:
+      break;
+  }
+}
+
+void td_deb_finished(qk_tap_dance_state_t *state, void *user_data) {
+  td_state = cur_dance(state);
+  switch(td_state) {
+    case TD_NONE:
+      SEND_STRING("TD_NONE");
+      break;
+    case TD_UNKNOWN:
+      SEND_STRING("TD_UNKNOWN");
+      break;
+    case TD_SINGLE_TAP:
+      SEND_STRING("TD_SINGLE_TAP");
+      break;
+    case TD_SINGLE_TAP_HOLD:
+      SEND_STRING("TD_SINGLE_TAP_HOLD");
+      break;
+    case TD_DOUBLE_TAP:
+      SEND_STRING("TD_DOUBLE_TAP");
+      break;
+    case TD_DOUBLE_TAP_HOLD:
+      SEND_STRING("TD_DOUBLE_TAP_HOLD");
+      break;
+  }
+}
+
+void td_deb_reset(qk_tap_dance_state_t *state, void *user_data) {
+}
+
+
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [ESC_LT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, esclt_finished, esclt_reset)
+  [ESC_LT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, esclt_finished, esclt_reset),
+  [CMD_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, cmd_shift_finished, cmd_shift_reset),
+  [TD_DEB] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_deb_finished, td_deb_reset),
 };

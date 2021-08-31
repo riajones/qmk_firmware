@@ -34,3 +34,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // https://beta.docs.qmk.fm/using-qmk/software-features/feature_tap_dance#how-to-use-tap-dance-id-how-to-use
 #define TAPPING_TERM 200
+
+#define USB_POLLING_INTERVAL_MS 5
