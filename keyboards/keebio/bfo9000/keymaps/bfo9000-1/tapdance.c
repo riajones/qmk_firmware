@@ -45,12 +45,13 @@ td_state_t cur_dance(qk_tap_dance_state_t *state) {
 void esclt_finished(qk_tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
+    case TD_SINGLE_TAP_HOLD:
+      clear_mods();
     case TD_SINGLE_TAP:
     case TD_DOUBLE_TAP:
       register_code16(KC_ESC);
       break;
     case TD_DOUBLE_TAP_HOLD:
-      // register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
       layer_invert(OSX);
       break;
     default:
@@ -71,6 +72,7 @@ void esclt_reset(qk_tap_dance_state_t *state, void *user_data) {
 void cmd_shift_finished(qk_tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
+    case TD_SINGLE_TAP:
     case TD_SINGLE_TAP_HOLD:
       register_mods(MOD_BIT(KC_LGUI));
       break;
@@ -85,9 +87,10 @@ void cmd_shift_finished(qk_tap_dance_state_t *state, void *user_data) {
 void cmd_shift_reset(qk_tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
     case TD_SINGLE_TAP:
-    unregister_mods(MOD_BIT(KC_LGUI));
-    break;
-    case TD_DOUBLE_TAP:
+    case TD_SINGLE_TAP_HOLD:
+      unregister_mods(MOD_BIT(KC_LGUI));
+      break;
+    case TD_DOUBLE_TAP_HOLD:
       unregister_mods(MOD_BIT(KC_LSFT));
       break;
     default:
@@ -99,27 +102,47 @@ void td_deb_finished(qk_tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch(td_state) {
     case TD_NONE:
-      SEND_STRING("TD_NONE");
+      register_code16(KC_1);
       break;
     case TD_UNKNOWN:
-      SEND_STRING("TD_UNKNOWN");
+      register_code16(KC_2);
       break;
     case TD_SINGLE_TAP:
-      SEND_STRING("TD_SINGLE_TAP");
+      register_code16(KC_3);
       break;
     case TD_SINGLE_TAP_HOLD:
-      SEND_STRING("TD_SINGLE_TAP_HOLD");
+      register_code16(KC_4);
       break;
     case TD_DOUBLE_TAP:
-      SEND_STRING("TD_DOUBLE_TAP");
+      register_code16(KC_5);
       break;
     case TD_DOUBLE_TAP_HOLD:
-      SEND_STRING("TD_DOUBLE_TAP_HOLD");
+      register_code16(KC_6);
       break;
   }
 }
 
 void td_deb_reset(qk_tap_dance_state_t *state, void *user_data) {
+  switch(td_state) {
+    case TD_NONE:
+      unregister_code16(KC_1);
+      break;
+    case TD_UNKNOWN:
+      unregister_code16(KC_2);
+      break;
+    case TD_SINGLE_TAP:
+      unregister_code16(KC_3);
+      break;
+    case TD_SINGLE_TAP_HOLD:
+      unregister_code16(KC_4);
+      break;
+    case TD_DOUBLE_TAP:
+      unregister_code16(KC_5);
+      break;
+    case TD_DOUBLE_TAP_HOLD:
+      unregister_code16(KC_6);
+      break;
+  }
 }
 
 

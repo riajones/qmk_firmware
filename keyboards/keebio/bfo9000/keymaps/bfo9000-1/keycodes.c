@@ -1,5 +1,5 @@
 enum custom_keycodes {
-    CU_GITHUB = 200,
+    CU_GITHUB = SAFE_RANGE,
     CU_SPC_MOUS,
     CU_VU,
     // CU_LEFT,
