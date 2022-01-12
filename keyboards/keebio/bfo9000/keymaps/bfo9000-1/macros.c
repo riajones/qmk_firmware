@@ -67,12 +67,6 @@ void github(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
-void vu(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-    SEND_STRING("Vu Vu Vu!");
-  }
-}
-
 void space_mouse(uint16_t keycode, keyrecord_t *record) {
   switch (get_press_type(record)) {
     case DOWN:
@@ -103,9 +97,6 @@ bool handle_key_event(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
     case CU_GITHUB:
       github(keycode, record);
-      return false;
-    case CU_VU:
-      vu(keycode, record);
       return false;
     case CU_SPC_MOUS: // Tap for space, enable mouse layer when held
       space_mouse(keycode, record);
