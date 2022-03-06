@@ -39,16 +39,178 @@ press_type get_press_type(keyrecord_t *record) {
   return HOLD_UP;
 }
 
+void screenshot(uint16_t keycode) {
+  if (layer_state_is(BASE)) {
+    add_mods(mod_config(MOD_LCTL & MOD_MASK_SHIFT));
+    tap_code(KC_PSCR);
+  }
+  if (layer_state_is(OSX)) {
+    add_mods(mod_config(MOD_LGUI & MOD_MASK_SHIFT));
+    tap_code(KC_4);
+  }
+}
+
+void snap_left(uint16_t keycode) {
+  if (layer_state_is(BASE)) {
+    add_mods(mod_config(MOD_LGUI));
+    tap_code(KC_LEFT);
+  }
+  if (layer_state_is(OSX)) {
+    add_mods(mod_config(MOD_LCTL & MOD_LALT));
+    tap_code(KC_LEFT);
+  }
+}
+void snap_right(uint16_t keycode) {
+  if (layer_state_is(BASE)) {
+    add_mods(mod_config(MOD_LGUI));
+    tap_code(KC_RIGHT);
+  }
+  if (layer_state_is(OSX)) {
+    add_mods(mod_config(MOD_LCTL & MOD_LALT));
+    tap_code(KC_RIGHT);
+  }
+}
+void workspace_left(uint16_t keycode) {
+  if (layer_state_is(BASE)) {
+    add_mods(mod_config(MOD_LCTL & MOD_LALT));
+    tap_code(KC_LEFT);
+  }
+  if (layer_state_is(OSX)) {
+    add_mods(mod_config(MOD_LCTL));
+    tap_code(KC_LEFT);
+  }
+}
+void workspace_right(uint16_t keycode) {
+  if (layer_state_is(BASE)) {
+    add_mods(mod_config(MOD_LCTL & MOD_LALT));
+    tap_code(KC_RIGHT);
+  }
+  if (layer_state_is(OSX)) {
+    add_mods(mod_config(MOD_LCTL));
+    tap_code(KC_RIGHT);
+  }
+}
+void dashboard(uint16_t keycode) {
+  if (layer_state_is(BASE)) {
+    tap_code(KC_LGUI);
+  }
+  if (layer_state_is(OSX)) {
+    add_mods(mod_config(MOD_LCTL));
+    tap_code(KC_UP);
+  }
+}
+
+void launch_program(char *name) {
+  // Setup
+  uint8_t initial_mods = get_mods();
+  clear_mods();
+  // SEND_STRING(SS_TAP(X_LGUI) name SS_DELAY(500) SS_TAP(X_ENT));
+  if (layer_state_is(BASE)) {
+    add_mods(mod_config(MOD_LGUI));
+    send_string(name);
+    tap_code_delay(KC_ENT, 500);
+  }
+  if (layer_state_is(OSX)) {
+    add_mods(mod_config(MOD_LGUI));
+    tap_code(KC_SPACE);
+    tap_code_delay(KC_LGUI, 100);
+    send_string(name);
+    tap_code_delay(KC_ENT, 500);
+  }
+  // Cleanup
+  clear_mods();
+  set_mods(initial_mods);
+}
+
 void github(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     SEND_STRING("https://github.com");
   }
 }
+void gmail(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    SEND_STRING("https://gmail.com");
+  }
+}
+void youtube(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    SEND_STRING("https://youtube.com");
+  }
+}
+
+void handle_custom_event(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    // Setup
+    uint8_t initial_mods = get_mods();
+    clear_mods();
+
+    switch(keycode) {
+      case CU_SCRN:
+        screenshot(keycode);
+        break;
+      case CU_SNPL:
+        snap_left(keycode);
+        break;
+      case CU_SNPR:
+        snap_right(keycode);
+        break;
+      case CU_WSPL:
+        workspace_left(keycode);
+        break;
+      case CU_WSPR:
+        workspace_right(keycode);
+        break;
+      case CU_DASH:
+        dashboard(keycode);
+        break;
+      case CU_CODE:
+        launch_program("vscode");
+        break;
+      case CU_CHRM:
+        launch_program("Google Chrome");
+        break;
+      case CU_STEM:
+        launch_program("Steam");
+        break;
+      case CU_OBS:
+        launch_program("OBS");
+        break;
+      case CU_DSCD:
+        launch_program("Discord");
+        break;
+      default:
+        break;
+    }
+
+    // Cleanup
+    clear_mods();
+    set_mods(initial_mods);
+  }
+}
 
 bool handle_key_event(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
-    case CU_GITHUB:
+    case CU_GHUB:
       github(keycode, record);
+      return false;
+    case CU_GMAL:
+      gmail(keycode, record);
+      return false;
+    case CU_YTUB:
+      youtube(keycode, record);
+      return false;
+    case CU_SCRN:
+    case CU_SNPL:
+    case CU_SNPR:
+    case CU_WSPL:
+    case CU_WSPR:
+    case CU_DASH:
+    case CU_CODE:
+    case CU_CHRM:
+    case CU_STEM:
+    case CU_OBS:
+    case CU_DSCD:
+      handle_custom_event(keycode, record);
       return false;
     default:
       break;
