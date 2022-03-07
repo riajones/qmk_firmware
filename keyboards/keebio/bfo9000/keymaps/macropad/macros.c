@@ -39,6 +39,28 @@ press_type get_press_type(keyrecord_t *record) {
   return HOLD_UP;
 }
 
+void launch_program(char *name) {
+  // Setup
+  uint8_t initial_mods = get_mods();
+  clear_mods();
+  // SEND_STRING(SS_TAP(X_LGUI) name SS_DELAY(500) SS_TAP(X_ENT));
+  if (layer_state_is(BASE)) {
+    add_mods(mod_config(MOD_LGUI));
+    send_string(name);
+    tap_code_delay(KC_ENT, 500);
+  }
+  if (layer_state_is(OSX)) {
+    add_mods(mod_config(MOD_LGUI));
+    tap_code(KC_SPACE);
+    tap_code_delay(KC_LGUI, 100);
+    send_string(name);
+    tap_code_delay(KC_ENT, 500);
+  }
+  // Cleanup
+  clear_mods();
+  set_mods(initial_mods);
+}
+
 void screenshot(uint16_t keycode) {
   if (layer_state_is(BASE)) {
     add_mods(mod_config(MOD_LCTL & MOD_MASK_SHIFT));
@@ -47,6 +69,15 @@ void screenshot(uint16_t keycode) {
   if (layer_state_is(OSX)) {
     add_mods(mod_config(MOD_LGUI & MOD_MASK_SHIFT));
     tap_code(KC_4);
+  }
+}
+
+void terminal(uint16_t keycode) {
+  if (layer_state_is(BASE)) {
+    launch_program("terminal");
+  }
+  if (layer_state_is(OSX)) {
+    launch_program("terminal");
   }
 }
 
@@ -100,28 +131,6 @@ void dashboard(uint16_t keycode) {
   }
 }
 
-void launch_program(char *name) {
-  // Setup
-  uint8_t initial_mods = get_mods();
-  clear_mods();
-  // SEND_STRING(SS_TAP(X_LGUI) name SS_DELAY(500) SS_TAP(X_ENT));
-  if (layer_state_is(BASE)) {
-    add_mods(mod_config(MOD_LGUI));
-    send_string(name);
-    tap_code_delay(KC_ENT, 500);
-  }
-  if (layer_state_is(OSX)) {
-    add_mods(mod_config(MOD_LGUI));
-    tap_code(KC_SPACE);
-    tap_code_delay(KC_LGUI, 100);
-    send_string(name);
-    tap_code_delay(KC_ENT, 500);
-  }
-  // Cleanup
-  clear_mods();
-  set_mods(initial_mods);
-}
-
 void github(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     SEND_STRING("https://github.com");
@@ -148,6 +157,9 @@ void handle_custom_event(uint16_t keycode, keyrecord_t *record) {
       case CU_SCRN:
         screenshot(keycode);
         break;
+      case CU_TERM:
+        terminal(keycode);
+        break;
       case CU_SNPL:
         snap_left(keycode);
         break;
@@ -164,7 +176,7 @@ void handle_custom_event(uint16_t keycode, keyrecord_t *record) {
         dashboard(keycode);
         break;
       case CU_CODE:
-        launch_program("vscode");
+        launch_program("Visual Studio Code");
         break;
       case CU_CHRM:
         launch_program("Google Chrome");
@@ -200,6 +212,7 @@ bool handle_key_event(uint16_t keycode, keyrecord_t *record) {
       youtube(keycode, record);
       return false;
     case CU_SCRN:
+    case CU_TERM:
     case CU_SNPL:
     case CU_SNPR:
     case CU_WSPL:
