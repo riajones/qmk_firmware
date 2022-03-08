@@ -43,9 +43,9 @@ void launch_program(char *name) {
   // Setup
   uint8_t initial_mods = get_mods();
   clear_mods();
-  // SEND_STRING(SS_TAP(X_LGUI) name SS_DELAY(500) SS_TAP(X_ENT));
   if (layer_state_is(BASE)) {
-    add_mods(mod_config(MOD_LGUI));
+    tap_code(KC_LGUI);
+    tap_code_delay(KC_LGUI, 100);
     send_string(name);
     tap_code_delay(KC_ENT, 500);
   }
@@ -78,6 +78,35 @@ void terminal(uint16_t keycode) {
   }
   if (layer_state_is(OSX)) {
     launch_program("terminal");
+  }
+}
+
+void vscode(uint16_t keycode) {
+   if (layer_state_is(BASE)) {
+    launch_program("vscode");
+  }
+  if (layer_state_is(OSX)) {
+    launch_program("Visual Studio Code");
+  }
+}
+
+void obs_controls(uint16_t keycode) {
+  switch (keycode) {
+    case OBS_STR:
+      send_string(SS_LCTL(SS_LALT("v")));
+      break;
+    case OBS_STP:
+      send_string(SS_LCTL(SS_LALT(SS_LSFT("v"))));
+      break;
+    case OBS_SC1:
+      send_string(SS_LCTL(SS_LGUI(SS_LALT(SS_LSFT("1")))));
+      break;
+    case OBS_SC2:
+      send_string(SS_LCTL(SS_LGUI(SS_LALT(SS_LSFT("2")))));
+      break;
+    case OBS_SC3:
+      send_string(SS_LCTL(SS_LGUI(SS_LALT(SS_LSFT("3")))));
+      break;
   }
 }
 
@@ -176,7 +205,7 @@ void handle_custom_event(uint16_t keycode, keyrecord_t *record) {
         dashboard(keycode);
         break;
       case CU_CODE:
-        launch_program("Visual Studio Code");
+        vscode(keycode);
         break;
       case CU_CHRM:
         launch_program("Google Chrome");
@@ -189,6 +218,13 @@ void handle_custom_event(uint16_t keycode, keyrecord_t *record) {
         break;
       case CU_DSCD:
         launch_program("Discord");
+        break;
+      case OBS_STR:
+      case OBS_STP:
+      case OBS_SC1:
+      case OBS_SC2:
+      case OBS_SC3:
+        obs_controls(keycode);
         break;
       default:
         break;
@@ -223,6 +259,11 @@ bool handle_key_event(uint16_t keycode, keyrecord_t *record) {
     case CU_STEM:
     case CU_OBS:
     case CU_DSCD:
+    case OBS_STR:
+    case OBS_STP:
+    case OBS_SC1:
+    case OBS_SC2:
+    case OBS_SC3:
       handle_custom_event(keycode, record);
       return false;
     default:

@@ -19,5 +19,11 @@ enum custom_keycodes {
     CU_STEM,
     CU_OBS,
     CU_DSCD,
+    // OBS
+    OBS_STR,
+    OBS_STP,
+    OBS_SC1,
+    OBS_SC2,
+    OBS_SC3,
     NEW_SAFE_RANGE,
 };
