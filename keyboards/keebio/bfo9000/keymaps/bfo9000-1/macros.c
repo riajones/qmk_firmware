@@ -39,31 +39,30 @@ press_type get_press_type(keyrecord_t *record) {
   return HOLD_UP;
 }
 
-// void custom_arrow(uint16_t keycode, keyrecord_t *record) {
-//   if (record->event.pressed) {
-//     uint8_t mods_state = get_mods();
-//     if (MOD_BIT(KC_LALT) && MOD_BIT(KC_LGUI)) {
-//       clear_mods();
-//       add_mods(mod_config(MOD_LCTL));
-//       if (keycode == CU_LEFT) {
-//         add_mods(mod_config(MOD_LSFT));
-//       } 
-//       tap_code(KC_TAB);
-//       set_mods(mods_state);
-//       return;
-//     }
-
-//     if (keycode == CU_LEFT) {
-//       tap_code(KC_LEFT);
-//     } else if (keycode == CU_RIGHT) {
-//       tap_code(KC_RGHT);
-//     }
-//   }
-// }
-
 void github(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     SEND_STRING("https://github.com");
+  }
+}
+void gmail(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    SEND_STRING("https://gmail.com");
+  }
+}
+void youtube(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    SEND_STRING("https://youtube.com");
+  }
+}
+
+void screenshot(uint16_t keycode) {
+  if (layer_state_is(BASE)) {
+    add_mods(mod_config(MOD_LCTL & MOD_MASK_SHIFT));
+    tap_code(KC_PSCR);
+  }
+  if (layer_state_is(OSX)) {
+    add_mods(mod_config(MOD_LGUI & MOD_MASK_SHIFT));
+    tap_code(KC_4);
   }
 }
 
@@ -93,27 +92,49 @@ void enter_media(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
+void handle_custom_event(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    // Setup
+    uint8_t initial_mods = get_mods();
+    clear_mods();
+
+    switch(keycode) {
+      case CU_GHUB:
+        github(keycode, record);
+        break;
+      case CU_GMAL:
+        gmail(keycode, record);
+        break;
+      case CU_YTUB:
+        youtube(keycode, record);
+        break;
+      case CU_SCRN:
+        screenshot(keycode);
+        break;
+      default:
+        break;
+    }
+
+    // Cleanup
+    clear_mods();
+    set_mods(initial_mods);
+  }
+}
+
 bool handle_key_event(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
-    case CU_GITHUB:
-      github(keycode, record);
-      return false;
     case CU_SPC_MOUS: // Tap for space, enable mouse layer when held
       space_mouse(keycode, record);
       break;
-    case CU_KVM:
-      if (record->event.pressed) {
-        tap_code(KC_SCROLLLOCK);
-        tap_code(KC_SCROLLLOCK);
-      }
-      return false;
     case CU_ENT_MED:
       enter_media(keycode, record);
       return true;
-    // case CU_LEFT:
-    // case CU_RIGHT:
-    //   custom_arrow(keycode, record);
-    //   return false;
+    case CU_GHUB:
+    case CU_GMAL:
+    case CU_YTUB:
+    case CU_SCRN:
+      handle_custom_event(keycode, record);
+      return false;
     default:
       break;
   }

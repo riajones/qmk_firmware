@@ -19,6 +19,12 @@
 #define SS_LINU LSFT(LCTL(KC_PSCR))
 #define SS_OSX LSG(KC_4)
 
+#define DB_STRT KC_F5
+#define DB_PLAY KC_F5
+#define DB_STEP KC_F10
+#define DB_IN KC_F11
+#define DB_OUT LSFT(KC_F11)
+
 enum layers {
     BASE,  // default layer
     OSX,   // symbols
@@ -33,12 +39,12 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [BASE] = LAYOUT(
-  TD(ESC_LT), KC_F1,   KC_F2,   KC_F3,    KC_F4,   KC_F5,   KC_F6,      KC_F7,       KC_F8,         CU_GITHUB,  _______,  _______,    XXXXXXX,  KC_F9,   KC_F10,  KC_F11,  KC_F12,   KC_DEL,
-  KC_GRV,     KC_1,    KC_2,    KC_3,     KC_4,    KC_5,    KC_6,       KC_VOLD,     KC_VOLU,       LIN_SNL,    LIN_SNR,  KC_7,       KC_8,     KC_9,    KC_0,    KC_MINS, KC_EQUAL, KC_BSPC,
-  KC_TAB,     KC_Q,    KC_W,    KC_E,     KC_R,    KC_T,    KC_LBRC,    XXXXXXX,     PLAY,          KC_PGUP,    LIN_WSU,  KC_RBRC,    KC_Y,     KC_U,    KC_I,    KC_O,    KC_P,     KC_BSLS,
-  KC_LCTL,    KC_A,    KC_S,    KC_D,     KC_F,    KC_G,    KC_F2,      KC_F12,      KC_HOME,       KC_PGDN,    XXXXXXX,  XXXXXXX,    KC_H,     KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,
-  KC_LSFT,    KC_Z,    KC_X,    KC_C,     KC_V,    KC_B,    TD(HM_WSL), TD(END_WSR), KC_END,        TD(HM_WSL), TD(END_WSR),  KC_SLSH,    KC_N,     KC_M,    KC_COMM, KC_DOT,  KC_UP,    TD(CMD_SHIFT),
-  KC_LCTL,    KC_LGUI, KC_LALT, MO(MDIA), KC_SPC,  XXXXXXX, MO(MOUS),   CU_KVM,      KC_DEL,        SS_LINU,    MO(MOUS), CU_ENT_MED, XXXXXXX,  KC_ENT,  CTL_APP, KC_LEFT, KC_DOWN,  KC_RGHT
+  TD(ESC_LT), KC_F1,   KC_F2,   KC_F3,    KC_F4,   KC_F5,   KC_F6,      KC_F7,       KC_F8,         CU_GHUB,    CU_GMAL,    CU_YTUB,    XXXXXXX,  KC_F9,   KC_F10,  KC_F11,  KC_F12,   KC_DEL,
+  KC_GRV,     KC_1,    KC_2,    KC_3,     KC_4,    KC_5,    KC_6,       KC_VOLD,     KC_VOLU,       LIN_SNL,    LIN_SNR,    KC_7,       KC_8,     KC_9,    KC_0,    KC_MINS, KC_EQUAL, KC_BSPC,
+  KC_TAB,     KC_Q,    KC_W,    KC_E,     KC_R,    KC_T,    KC_LBRC,    DB_STRT,     PLAY,          KC_PGUP,    LIN_WSU,    KC_RBRC,    KC_Y,     KC_U,    KC_I,    KC_O,    KC_P,     KC_BSLS,
+  KC_LCTL,    KC_A,    KC_S,    KC_D,     KC_F,    KC_G,    DB_PLAY,    DB_STEP,     DB_IN,         KC_PGDN,    XXXXXXX,    XXXXXXX,    KC_H,     KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,
+  KC_LSFT,    KC_Z,    KC_X,    KC_C,     KC_V,    KC_B,    KC_HOME,    KC_END,      DB_OUT,        TD(HM_WSL), TD(END_WSR),KC_SLSH,    KC_N,     KC_M,    KC_COMM, KC_DOT,  KC_UP,    TD(CMD_SHIFT),
+  KC_LCTL,    KC_LGUI, KC_LALT, MO(MDIA), KC_SPC,  XXXXXXX, MO(MOUS),   _______,     KC_DEL,        SS_LINU,    MO(MOUS),   CU_ENT_MED, XXXXXXX,  KC_ENT,  CTL_APP, KC_LEFT, KC_DOWN,  KC_RGHT
 ),
 
 [OSX] = LAYOUT(
