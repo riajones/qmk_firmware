@@ -11,6 +11,7 @@ enum td_keycodes {
     CMD_SHIFT, // CMD When Held || Shiftble Tap Hold
     HM_WSL, // Home key on single press, workspace left on double press
     END_WSR, // End key on single press, workspace right on double press
+    TD_TBCP, // Single press tensorboard.corp, touble tap redirect to my workstation
 };
 
 // Define a type containing as many tapdance states as you need
@@ -173,10 +174,31 @@ void end_wsr_reset(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
+void tb_corp_finished(qk_tap_dance_state_t *state, void *user_data) {
+  td_state = cur_dance(state);
+  switch (td_state) {
+    case TD_SINGLE_TAP:
+    case TD_SINGLE_TAP_HOLD:
+      SEND_STRING("https://tensorboard.corp.google.com");
+      break;
+    case TD_DOUBLE_TAP:
+    case TD_DOUBLE_TAP_HOLD:
+      SEND_STRING("sslredirect/rileyjones.mtv.corp.google.com:8080");
+      break;
+    default:
+      break;
+  }
+}
+
+void tb_corp_reset(qk_tap_dance_state_t *state, void *user_data) {
+    // No cleanup required
+}
+
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 qk_tap_dance_action_t tap_dance_actions[] = {
   [ESC_LT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, esclt_finished, esclt_reset),
   [CMD_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, cmd_shift_finished, cmd_shift_reset),
   [HM_WSL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, hm_wsl_finished, hm_wsl_reset),
   [END_WSR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, end_wsr_finished, end_wsr_reset),
+  [TD_TBCP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, tb_corp_finished, tb_corp_reset),
 };

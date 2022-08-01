@@ -10,6 +10,12 @@ Hardware Availability: [Keebio](https://keeb.io)
 Make example for this keyboard (after setting up your build environment):
 
     make keebio/bfo9000:default
+    <!-- Rileys Custom Keymap -->
+    make keebio/bfo9000:bfo9000-1
+    Gets outputted to: .build/keebio_bfo9000_bfo9000-1.hex
+    However, QMK Toolbox can't open hidden folders
+    cp .build/keebio_bfo9000_bfo9000-1.hex ~
+    
 
 Example of flashing this keyboard:
 

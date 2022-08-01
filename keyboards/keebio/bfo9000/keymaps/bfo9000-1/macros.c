@@ -55,6 +55,12 @@ void youtube(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
+void tensorboard_oss(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    SEND_STRING("http://localhost:6006");
+  }
+}
+
 void screenshot(uint16_t keycode) {
   if (layer_state_is(BASE)) {
     add_mods(mod_config(MOD_LCTL & MOD_MASK_SHIFT));
@@ -64,6 +70,11 @@ void screenshot(uint16_t keycode) {
     add_mods(mod_config(MOD_LGUI & MOD_MASK_SHIFT));
     tap_code(KC_4);
   }
+}
+
+void tmux(uint16_t keycode, keyrecord_t *record) {
+    add_mods(mod_config(MOD_LCTL));
+    tap_code(KC_B);
 }
 
 void space_mouse(uint16_t keycode, keyrecord_t *record) {
@@ -111,6 +122,12 @@ void handle_custom_event(uint16_t keycode, keyrecord_t *record) {
       case CU_SCRN:
         screenshot(keycode);
         break;
+      case CU_TBOS:
+        tensorboard_oss(keycode, record);
+        break;
+      case CU_TMUX:
+        tmux(keycode, record);
+        break;
       default:
         break;
     }
@@ -133,6 +150,8 @@ bool handle_key_event(uint16_t keycode, keyrecord_t *record) {
     case CU_GMAL:
     case CU_YTUB:
     case CU_SCRN:
+    case CU_TBOS:
+    case CU_TMUX:
       handle_custom_event(keycode, record);
       return false;
     default:
