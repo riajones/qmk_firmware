@@ -1,9 +1,7 @@
 enum custom_keycodes {
     // String  Inputs
-    CU_GHUB = SAFE_RANGE,
-    CU_GMAL,
+    CU_GMAL = SAFE_RANGE,
     CU_YTUB,
-    CU_TBOS,
     // Operating System Functionality
     CU_SCRN,
     CU_TERM,

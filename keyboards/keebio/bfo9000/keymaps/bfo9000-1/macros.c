@@ -39,11 +39,6 @@ press_type get_press_type(keyrecord_t *record) {
   return HOLD_UP;
 }
 
-void github(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-    SEND_STRING("https://github.com");
-  }
-}
 void gmail(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     SEND_STRING("https://gmail.com");
@@ -52,12 +47,6 @@ void gmail(uint16_t keycode, keyrecord_t *record) {
 void youtube(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     SEND_STRING("https://youtube.com");
-  }
-}
-
-void tensorboard_oss(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-    SEND_STRING("http://localhost:6006");
   }
 }
 
@@ -110,9 +99,6 @@ void handle_custom_event(uint16_t keycode, keyrecord_t *record) {
     clear_mods();
 
     switch(keycode) {
-      case CU_GHUB:
-        github(keycode, record);
-        break;
       case CU_GMAL:
         gmail(keycode, record);
         break;
@@ -121,9 +107,6 @@ void handle_custom_event(uint16_t keycode, keyrecord_t *record) {
         break;
       case CU_SCRN:
         screenshot(keycode);
-        break;
-      case CU_TBOS:
-        tensorboard_oss(keycode, record);
         break;
       case CU_TMUX:
         tmux(keycode, record);
@@ -146,11 +129,9 @@ bool handle_key_event(uint16_t keycode, keyrecord_t *record) {
     case CU_ENT_MED:
       enter_media(keycode, record);
       return true;
-    case CU_GHUB:
     case CU_GMAL:
     case CU_YTUB:
     case CU_SCRN:
-    case CU_TBOS:
     case CU_TMUX:
       handle_custom_event(keycode, record);
       return false;
