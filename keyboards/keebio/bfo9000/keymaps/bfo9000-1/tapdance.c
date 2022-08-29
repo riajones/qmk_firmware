@@ -14,6 +14,7 @@ enum td_keycodes {
     TB_TBCP, // Single press tensorboard.corp, double tap redirect to my workstation
     TB_OSS, // Single press tensorboard github, double tap, tensorboard local development
     GITHUB, // Single press inputs github, double press github pulls
+    MACRO, // Single press starts recording, press + hold clears, double press stops recording.
 };
 
 // Define a type containing as many tapdance states as you need
