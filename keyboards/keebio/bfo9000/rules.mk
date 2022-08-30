@@ -31,6 +31,6 @@ RGBLIGHT_ENABLE = no        # Enable WS2812 RGB underlight.
 SLEEP_LED_ENABLE = no       # Breathing sleep LED during USB suspend
 TAP_DANCE_ENABLE = yes      # https://beta.docs.qmk.fm/using-qmk/software-features/feature_tap_dance
 # KEY_OVERRIDE_ENABLE = yes
-DYNAMIC_MACRO_ENABLE = yes
+# DYNAMIC_MACRO_ENABLE = yes
 
 SPLIT_KEYBOARD = yes

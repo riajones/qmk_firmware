@@ -16,7 +16,7 @@
 
 typedef struct {
     uint16_t    keycode;
-    keyrecord_t keyrecord;
+    keyrecord_t record;
 } macro_record;
 
 typedef struct {
@@ -184,7 +184,7 @@ void add_to_macro(custom_macro *macro, uint16_t keycode, keyrecord_t *record) {
     for (int i = 0; i < MAX_MACRO_SIZE; i++) {
         if (macro->keys[i].keycode == KC_NO) {
             macro->keys[i].keycode   = keycode;
-            macro->keys[i].keyrecord = *record;
+            macro->keys[i].record = *record;
             return;
         }
     }
@@ -206,10 +206,9 @@ void play_macro(custom_macro *macro) {
         if (macro->keys[i].keycode == KC_NO) {
             break;
         }
-        process_record(&macro->keys[i].keyrecord);
-        // _delay_ms(MACRO_PLAY_INTERVAL);
+        register_code(macro->keys[i].keycode);
+        unregister_code(macro->keys[i].keycode);
     }
-    dynamic_macro_play_user(1);
 }
 
 bool play_macro_or_key(uint16_t keycode, keyrecord_t *record) {
@@ -288,8 +287,8 @@ void matrix_init_(void) {
 
 void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
-  debug_enable=true;
-  debug_matrix=true;
+//   debug_enable=true;
+//   debug_matrix=true;
   //debug_keyboard=true;
   //debug_mouse=true;
 }

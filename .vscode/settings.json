@@ -19,7 +19,9 @@
         "type_traits": "c",
         "utility": "c",
         "ranges": "c",
-        "__node_handle": "c"
+        "__node_handle": "c",
+        "regex": "c",
+        "system_error": "c"
     },
     "[markdown]": {
         "editor.trimAutoWhitespace": false,
