@@ -19,8 +19,8 @@
 #define SS_LINU LSFT(LCTL(KC_PSCR))
 #define SS_OSX LSG(KC_4)
 
-#define DB_STRT KC_F5
-#define DB_PLAY KC_F5
+#define DB_STRT KC_F8
+#define DB_PLAY KC_F8
 #define DB_STEP KC_F10
 #define DB_IN KC_F11
 #define DB_OUT LSFT(KC_F11)

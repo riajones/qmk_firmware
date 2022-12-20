@@ -182,11 +182,11 @@ void tb_corp_finished(qk_tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
     case TD_SINGLE_TAP:
     case TD_SINGLE_TAP_HOLD:
-      SEND_STRING("https://tensorboard.corp.google.com");
+      SEND_STRING("https://tensorboard-staging.corp.google.com");
       break;
     case TD_DOUBLE_TAP:
     case TD_DOUBLE_TAP_HOLD:
-      SEND_STRING("sslredirect/rileyjones.mtv.corp.google.com:8080");
+      SEND_STRING("localhost:8080");
       break;
     default:
       break;
