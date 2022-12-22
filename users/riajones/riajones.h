@@ -24,13 +24,13 @@
 
 #ifdef TAP_DANCE_ENABLE
 #define TD_CMOU TD(CMD_MOU)
-#define TD_FMOU TD(FN1_MOU)
+#define TD_MDMO TD(MED_MOU)
 #endif
 
 enum layers {
   BASE,
-  FN1,
-  MOUSE,
+  MDIA,
+  MOUS,
   NORM,
 };
 
@@ -42,7 +42,7 @@ enum custom_keycodes {
 enum td_keycodes {
     HME_END, // Single tap home, double tap end
     CMD_MOU, // CMD when held, mouse when tapped and held
-    FN1_MOU, // Activates FN1 when held, activates mouse when tapped and held
+    MED_MOU, // Activates MDIA when held, activates mouse when tapped and held
 };
 
 // Define a type containing as many tapdance states as you need

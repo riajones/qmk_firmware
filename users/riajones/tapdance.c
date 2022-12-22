@@ -62,11 +62,12 @@ void hmeend_reset(qk_tap_dance_state_t *state, void *user_data) {
 void cmdmou_finished(qk_tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
+    case TD_SINGLE_TAP:
     case TD_SINGLE_TAP_HOLD:
       register_mods(MOD_BIT(KC_LGUI));
       break;
     case TD_DOUBLE_TAP_HOLD:
-      layer_invert(MOUSE);
+      layer_invert(MOUS);
       break;
     default:
       break;
@@ -75,11 +76,12 @@ void cmdmou_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void cmdmou_reset(qk_tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
+    case TD_SINGLE_TAP:
     case TD_SINGLE_TAP_HOLD:
       unregister_mods(MOD_BIT(KC_LGUI));
       break;
     case TD_DOUBLE_TAP_HOLD:
-      layer_invert(MOUSE);
+      layer_invert(MOUS);
       break;
     default:
       break;
@@ -87,29 +89,29 @@ void cmdmou_reset(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 //////////////////////////////////////////////////////////////////////
-// FN1_MOU                                                          //
+// MDI_MOU                                                          //
 //////////////////////////////////////////////////////////////////////
-void fn1mou_finished(qk_tap_dance_state_t *state, void *user_data) {
+void medmou_finished(qk_tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
     case TD_SINGLE_TAP_HOLD:
-      layer_invert(FN1);
+      layer_invert(MDIA);
       break;
     case TD_DOUBLE_TAP_HOLD:
-      layer_invert(MOUSE);
+      layer_invert(MOUS);
       break;
     default:
       break;
   }
 }
 
-void fn1mou_reset(qk_tap_dance_state_t *state, void *user_data) {
+void medmou_reset(qk_tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
     case TD_SINGLE_TAP_HOLD:
-      layer_invert(FN1);
+      layer_invert(MDIA);
       break;
     case TD_DOUBLE_TAP_HOLD:
-      layer_invert(MOUSE);
+      layer_invert(MOUS);
       break;
     default:
       break;
@@ -123,5 +125,5 @@ void fn1mou_reset(qk_tap_dance_state_t *state, void *user_data) {
 qk_tap_dance_action_t tap_dance_actions[] = {
     [HME_END] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, hmeend_finished, hmeend_reset),
     [CMD_MOU] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, cmdmou_finished, cmdmou_reset),
-    [FN1_MOU] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, fn1mou_finished, fn1mou_reset),
+    [MED_MOU] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, medmou_finished, medmou_reset),
 };
