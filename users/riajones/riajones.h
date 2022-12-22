@@ -20,11 +20,18 @@
 
 #define PLAY KC_MEDIA_PLAY_PAUSE
 #define SS_LINU LSFT(LCTL(KC_PSCR))
+#define CTL_APP LCTL_T(KC_APP)
+
+#ifdef TAP_DANCE_ENABLE
+#define TD_CMOU TD(CMD_MOU)
+#define TD_FMOU TD(FN1_MOU)
+#endif
 
 enum layers {
   BASE,
   FN1,
   MOUSE,
+  NORM,
 };
 
 enum custom_keycodes {
@@ -34,7 +41,8 @@ enum custom_keycodes {
 // Tap Dance keycodes
 enum td_keycodes {
     HME_END, // Single tap home, double tap end
-    CMD_MOU, // Mouse when held, cmd when tapped and held
+    CMD_MOU, // CMD when held, mouse when tapped and held
+    FN1_MOU, // Activates FN1 when held, activates mouse when tapped and held
 };
 
 // Define a type containing as many tapdance states as you need
