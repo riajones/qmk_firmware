@@ -18,10 +18,31 @@
 
 #include QMK_KEYBOARD_H
 
+// Aliases
 #define PLAY KC_MEDIA_PLAY_PAUSE
-#define SS_LINU LSFT(LCTL(KC_PSCR))
 #define CTL_APP LCTL_T(KC_APP)
 
+#define LIN_WSL LCA(KC_LEFT)
+#define LIN_WSR LCA(KC_RIGHT)
+#define LIN_WSU KC_LGUI
+#define LIN_SNL LGUI(KC_LEFT)
+#define LIN_SNR LGUI(KC_RIGHT)
+#define OSX_WSL LCTL(KC_LEFT)
+#define OSX_WSR LCTL(KC_RIGHT)
+#define OSX_WSU LCTL(KC_UP)
+#define OSX_SNL LCA(KC_LEFT)
+#define OSX_SNR LCA(KC_RIGHT)
+
+#define SS_LINU LSFT(LCTL(KC_PSCR))
+#define SS_OSX LSG(KC_4)
+
+#define DB_STRT KC_F8
+#define DB_PLAY KC_F8
+#define DB_STEP KC_F10
+#define DB_IN KC_F11
+#define DB_OUT LSFT(KC_F11)
+
+// Tapdance Aliases
 #ifdef TAP_DANCE_ENABLE
 #define TD_CMOU TD(CMD_MOU)
 #define TD_FMOU TD(FN1_MOU)
@@ -29,28 +50,43 @@
 
 enum layers {
   BASE,
-  FN1,
-  MOUSE,
+  OSX,
+  MDIA,
+  MOUS,
   NORM,
 };
 
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
+  // String  Inputs
+  CU_GMAL = SAFE_RANGE,
+  CU_YTUB,
+  // Custom behavior
+  CU_MACRO,
+  // Operating System Functionality
+  CU_SCRN,
+  CU_TERM,
+  CU_TMUX,
+  CU_SPC_MOUS,
+  CU_ENT_MED,
+  NEW_SAFE_RANGE,
 };
 
+
+#ifdef TAP_DANCE_ENABLE
 // Tap Dance keycodes
 enum td_keycodes {
-    HME_END, // Single tap home, double tap end
-    CMD_MOU, // CMD when held, mouse when tapped and held
-    FN1_MOU, // Activates FN1 when held, activates mouse when tapped and held
+  HME_END, // Single tap home, double tap end
+  CMD_MOU, // CMD when held, mouse when tapped and held
+  FN1_MOU, // Activates FN1 when held, activates mouse when tapped and held
 };
 
 // Define a type containing as many tapdance states as you need
 typedef enum {
-    TD_NONE,
-    TD_UNKNOWN,
-    TD_SINGLE_TAP,
-    TD_SINGLE_TAP_HOLD,
-    TD_DOUBLE_TAP,
-    TD_DOUBLE_TAP_HOLD
+  TD_NONE,
+  TD_UNKNOWN,
+  TD_SINGLE_TAP,
+  TD_SINGLE_TAP_HOLD,
+  TD_DOUBLE_TAP,
+  TD_DOUBLE_TAP_HOLD
 } td_state_t;
+#endif

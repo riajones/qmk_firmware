@@ -18,35 +18,35 @@
 #include "keycodes.c"
 
 // Custom Macros
-#define PLAY KC_MEDIA_PLAY_PAUSE
-#define CTL_APP LCTL_T(KC_APP)
+// #define PLAY KC_MEDIA_PLAY_PAUSE
+// #define CTL_APP LCTL_T(KC_APP)
 
-#define LIN_WSL LCA(KC_LEFT)
-#define LIN_WSR LCA(KC_RIGHT)
-#define LIN_WSU KC_LGUI
-#define LIN_SNL LGUI(KC_LEFT)
-#define LIN_SNR LGUI(KC_RIGHT)
-#define OSX_WSL LCTL(KC_LEFT)
-#define OSX_WSR LCTL(KC_RIGHT)
-#define OSX_WSU LCTL(KC_UP)
-#define OSX_SNL LCA(KC_LEFT)
-#define OSX_SNR LCA(KC_RIGHT)
+// #define LIN_WSL LCA(KC_LEFT)
+// #define LIN_WSR LCA(KC_RIGHT)
+// #define LIN_WSU KC_LGUI
+// #define LIN_SNL LGUI(KC_LEFT)
+// #define LIN_SNR LGUI(KC_RIGHT)
+// #define OSX_WSL LCTL(KC_LEFT)
+// #define OSX_WSR LCTL(KC_RIGHT)
+// #define OSX_WSU LCTL(KC_UP)
+// #define OSX_SNL LCA(KC_LEFT)
+// #define OSX_SNR LCA(KC_RIGHT)
 
-#define SS_LINU LSFT(LCTL(KC_PSCR))
-#define SS_OSX LSG(KC_4)
+// #define SS_LINU LSFT(LCTL(KC_PSCR))
+// #define SS_OSX LSG(KC_4)
 
-#define DB_STRT KC_F8
-#define DB_PLAY KC_F8
-#define DB_STEP KC_F10
-#define DB_IN KC_F11
-#define DB_OUT LSFT(KC_F11)
+// #define DB_STRT KC_F8
+// #define DB_PLAY KC_F8
+// #define DB_STEP KC_F10
+// #define DB_IN KC_F11
+// #define DB_OUT LSFT(KC_F11)
 
-enum layers {
-    BASE,  // default layer
-    OSX,   // symbols
-    MDIA,  // media keys
-    MOUS,  // mouse keys
-};
+// enum layers {
+//     BASE,  // default layer
+//     OSX,   // symbols
+//     MDIA,  // media keys
+//     MOUS,  // mouse keys
+// };
 
 #include "tapdance.c"
 #include "macros.c"
