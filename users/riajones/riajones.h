@@ -36,6 +36,11 @@ enum layers {
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
+  #ifdef CUSTOM_MACROS_ENABLED
+  CU_MACRO,
+  #endif
+  CU_ENT_MED,
+  CU_MED_MOU,
 };
 
 // Tap Dance keycodes
