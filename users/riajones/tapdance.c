@@ -4,7 +4,7 @@
 static td_state_t td_state;
 
 // Function to determine the current tapdance state
-td_state_t cur_dance(qk_tap_dance_state_t *state) {
+td_state_t cur_dance(tap_dance_state_t *state) {
   if (state->count == 1) {
     if (state->interrupted || !state->pressed) {
       return TD_SINGLE_TAP;
@@ -25,7 +25,7 @@ td_state_t cur_dance(qk_tap_dance_state_t *state) {
 //////////////////////////////////////////////////////////////////////
 // HME_END                                                          //
 //////////////////////////////////////////////////////////////////////
-void hmeend_finished(qk_tap_dance_state_t *state, void *user_data) {
+void hmeend_finished(tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
     case TD_SINGLE_TAP:
@@ -41,7 +41,7 @@ void hmeend_finished(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void hmeend_reset(qk_tap_dance_state_t *state, void *user_data) {
+void hmeend_reset(tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
     case TD_SINGLE_TAP:
     case TD_SINGLE_TAP_HOLD:
@@ -59,7 +59,7 @@ void hmeend_reset(qk_tap_dance_state_t *state, void *user_data) {
 //////////////////////////////////////////////////////////////////////
 // CMD_MOU                                                          //
 //////////////////////////////////////////////////////////////////////
-void cmdmou_finished(qk_tap_dance_state_t *state, void *user_data) {
+void cmdmou_finished(tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
     case TD_SINGLE_TAP:
@@ -74,7 +74,7 @@ void cmdmou_finished(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void cmdmou_reset(qk_tap_dance_state_t *state, void *user_data) {
+void cmdmou_reset(tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
     case TD_SINGLE_TAP:
     case TD_SINGLE_TAP_HOLD:
@@ -91,7 +91,7 @@ void cmdmou_reset(qk_tap_dance_state_t *state, void *user_data) {
 //////////////////////////////////////////////////////////////////////
 // MDI_MOU                                                          //
 //////////////////////////////////////////////////////////////////////
-void medmou_finished(qk_tap_dance_state_t *state, void *user_data) {
+void medmou_finished(tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
     case TD_SINGLE_TAP_HOLD:
@@ -105,7 +105,7 @@ void medmou_finished(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void medmou_reset(qk_tap_dance_state_t *state, void *user_data) {
+void medmou_reset(tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
     case TD_SINGLE_TAP_HOLD:
       layer_invert(MDIA);
@@ -121,7 +121,7 @@ void medmou_reset(qk_tap_dance_state_t *state, void *user_data) {
 //////////////////////////////////////////////////////////////////////
 // TB_CORP                                                          //
 //////////////////////////////////////////////////////////////////////
-void tbcorp_finished(qk_tap_dance_state_t *state, void *user_data) {
+void tbcorp_finished(tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
     case TD_SINGLE_TAP:
@@ -137,12 +137,12 @@ void tbcorp_finished(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void tbcorp_reset(qk_tap_dance_state_t *state, void *user_data) {}
+void tbcorp_reset(tap_dance_state_t *state, void *user_data) {}
 
 //////////////////////////////////////////////////////////////////////
 // TB_OSS                                                           //
 //////////////////////////////////////////////////////////////////////
-void tboss_finished(qk_tap_dance_state_t *state, void *user_data) {
+void tboss_finished(tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
     case TD_SINGLE_TAP:
@@ -158,12 +158,12 @@ void tboss_finished(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void tboss_reset(qk_tap_dance_state_t *state, void *user_data) {}
+void tboss_reset(tap_dance_state_t *state, void *user_data) {}
 
 //////////////////////////////////////////////////////////////////////
 // GITHUB                                                           //
 //////////////////////////////////////////////////////////////////////
-void github_finished(qk_tap_dance_state_t *state, void *user_data) {
+void github_finished(tap_dance_state_t *state, void *user_data) {
   td_state = cur_dance(state);
   switch (td_state) {
     case TD_SINGLE_TAP:
@@ -179,13 +179,13 @@ void github_finished(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void github_reset(qk_tap_dance_state_t *state, void *user_data) {}
+void github_reset(tap_dance_state_t *state, void *user_data) {}
 
 //////////////////////////////////////////////////////////////////////
 // Map actions to handlers                                          //
 //////////////////////////////////////////////////////////////////////
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
     [HME_END] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, hmeend_finished, hmeend_reset),
     [CMD_MOU] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, cmdmou_finished, cmdmou_reset),
     [MED_MOU] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, medmou_finished, medmou_reset),
