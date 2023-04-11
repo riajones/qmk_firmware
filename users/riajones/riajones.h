@@ -25,6 +25,9 @@
 #ifdef TAP_DANCE_ENABLE
 #define TD_CMOU TD(CMD_MOU)
 #define TD_MDMO TD(MED_MOU)
+#define TD_TBCP TD(TB_CORP)
+#define TD_TBOS TD(TB_OSS)
+#define TD_GITH TD(GITHUB)
 #endif
 
 enum layers {
@@ -48,6 +51,9 @@ enum td_keycodes {
     HME_END, // Single tap home, double tap end
     CMD_MOU, // CMD when held, mouse when tapped and held
     MED_MOU, // Activates MDIA when held, activates mouse when tapped and held
+    TB_CORP, // Types out the address for tensorboard.corp
+    TB_OSS,  // Types out the address for tensorboard oss or the github repo
+    GITHUB,  // Types out either github.com/pulls or github.com
 };
 
 // Define a type containing as many tapdance states as you need
