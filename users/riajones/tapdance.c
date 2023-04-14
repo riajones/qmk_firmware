@@ -126,7 +126,7 @@ void tbcorp_finished(tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
     case TD_SINGLE_TAP:
     case TD_SINGLE_TAP_HOLD:
-      send_string("https://staging-tensorboard.corp.google.com");
+      send_string("https://tensorboard-staging.corp.google.com");
       break;
     case TD_DOUBLE_TAP:
     case TD_DOUBLE_TAP_HOLD:
@@ -147,7 +147,7 @@ void tboss_finished(tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
     case TD_SINGLE_TAP:
     case TD_SINGLE_TAP_HOLD:
-      send_string("https://localhost:6006");
+      send_string("http://localhost:6006");
       break;
     case TD_DOUBLE_TAP:
     case TD_DOUBLE_TAP_HOLD:
